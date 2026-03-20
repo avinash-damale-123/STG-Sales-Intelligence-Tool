@@ -1,0 +1,1 @@
+{\n  "name": "sales-intelligence-tool",\n  "version": "1.0.0",\n  "description": "Frontend package for Sales Intelligence Tool",\n  "dependencies": {\n    "react": "^17.0.2",\n    "axios": "^0.21.1"\n  }\n}
