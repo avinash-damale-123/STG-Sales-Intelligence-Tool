@@ -1,0 +1,12 @@
+# Python specific entries
+__pycache__/
+*.py[cod]
+.Egg-info/
+*.egg
+*.egg-info/
+
+# Node.js specific entries
+node_modules/
+package-lock.json
+npm-debug.log
+.env
