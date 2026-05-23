@@ -1,14 +1,24 @@
 import { NextResponse } from 'next/server';
+import { getNcaSummary } from '@/services/nca-service';
 
 export async function GET() {
-  return NextResponse.json({
-    success: true,
-    message: 'NCA summary API placeholder.',
-    data: {
-      totalPipeline: 0,
-      hotLeads: 0,
-      convertedAccounts: 0,
-      proposalStageAccounts: 0,
-    },
-  });
+  try {
+    const data = await getNcaSummary({
+      isSuperAdmin: true,
+      allowedBranches: [],
+    });
+
+    return NextResponse.json({
+      success: true,
+      data,
+    });
+  } catch {
+    return NextResponse.json(
+      {
+        success: false,
+        message: 'Unable to load NCA summary.',
+      },
+      { status: 500 }
+    );
+  }
 }
