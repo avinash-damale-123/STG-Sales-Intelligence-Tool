@@ -1,14 +1,24 @@
 import { NextResponse } from 'next/server';
+import { getErvSummary } from '@/services/erv-service';
 
 export async function GET() {
-  return NextResponse.json({
-    success: true,
-    message: 'ERV summary API placeholder.',
-    data: {
-      totalAccounts: 0,
-      activeAccounts: 0,
-      lostAccounts: 0,
-      highPriorityAccounts: 0,
-    },
-  });
+  try {
+    const data = await getErvSummary({
+      isSuperAdmin: true,
+      allowedBranches: [],
+    });
+
+    return NextResponse.json({
+      success: true,
+      data,
+    });
+  } catch {
+    return NextResponse.json(
+      {
+        success: false,
+        message: 'Unable to load ERV summary.',
+      },
+      { status: 500 }
+    );
+  }
 }
