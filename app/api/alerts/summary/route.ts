@@ -1,12 +1,10 @@
 import { NextResponse } from 'next/server';
 import { getAlertSummary } from '@/services/alert-summary-service';
+import { getTemporarySuperAdminScope } from '@/services/api-access-scope';
 
 export async function GET() {
   try {
-    const data = await getAlertSummary({
-      isSuperAdmin: true,
-      allowedBranches: [],
-    });
+    const data = await getAlertSummary(getTemporarySuperAdminScope());
 
     return NextResponse.json({
       success: true,
