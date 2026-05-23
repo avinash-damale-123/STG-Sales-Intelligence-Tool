@@ -1,14 +1,24 @@
 import { NextResponse } from 'next/server';
+import { getDashboardSummary } from '@/services/dashboard-service';
 
 export async function GET() {
-  return NextResponse.json({
-    success: true,
-    message: 'Dashboard summary API placeholder.',
-    data: {
-      ervPortfolio: 0,
-      ncaPipeline: 0,
-      meetings: 0,
-      alerts: 0,
-    },
-  });
+  try {
+    const summary = await getDashboardSummary({
+      isSuperAdmin: true,
+      allowedBranches: [],
+    });
+
+    return NextResponse.json({
+      success: true,
+      data: summary,
+    });
+  } catch {
+    return NextResponse.json(
+      {
+        success: false,
+        message: 'Unable to load dashboard summary.',
+      },
+      { status: 500 }
+    );
+  }
 }
