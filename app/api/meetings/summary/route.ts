@@ -1,14 +1,24 @@
 import { NextResponse } from 'next/server';
+import { getMeetingSummary } from '@/services/meeting-service';
 
 export async function GET() {
-  return NextResponse.json({
-    success: true,
-    message: 'Meetings summary API placeholder.',
-    data: {
-      totalMeetings: 0,
-      heldMeetings: 0,
-      marketingMeetings: 0,
-      financeMeetings: 0,
-    },
-  });
+  try {
+    const data = await getMeetingSummary({
+      isSuperAdmin: true,
+      allowedBranches: [],
+    });
+
+    return NextResponse.json({
+      success: true,
+      data,
+    });
+  } catch {
+    return NextResponse.json(
+      {
+        success: false,
+        message: 'Unable to load meetings summary.',
+      },
+      { status: 500 }
+    );
+  }
 }
