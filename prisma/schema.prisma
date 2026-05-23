@@ -1,0 +1,129 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                 String             @id @default(uuid())
+  userId             String             @unique
+  email              String             @unique
+  firstName          String
+  lastName           String
+  department         String?
+  status             String             @default("Active")
+  passwordHash       String
+  primaryBranchCode  String?
+  lastLoginAt        DateTime?
+  createdAt          DateTime           @default(now())
+  updatedAt          DateTime           @updatedAt
+
+  roleId             String
+  role               Role               @relation(fields: [roleId], references: [id])
+
+  branchAccess       UserBranchAccess[]
+  scorecards         Scorecard[]
+  auditLogs          AuditLog[]
+}
+
+model Role {
+  id             String   @id @default(uuid())
+  roleName       String   @unique
+  isSuperAdmin   Boolean  @default(false)
+  createdAt      DateTime @default(now())
+
+  users          User[]
+}
+
+model Branch {
+  id             String   @id @default(uuid())
+  branchCode     String   @unique
+  branchName     String
+  regionName     String?
+  countryName    String?
+  status         String   @default("Active")
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  userAccess     UserBranchAccess[]
+}
+
+model UserBranchAccess {
+  id             String   @id @default(uuid())
+  userId         String
+  branchCode     String
+  createdAt      DateTime @default(now())
+
+  user           User     @relation(fields: [userId], references: [id])
+  branch         Branch   @relation(fields: [branchCode], references: [branchCode])
+
+  @@unique([userId, branchCode])
+}
+
+model Account {
+  id                String   @id @default(uuid())
+  crmAccountId      String   @unique
+  accountName       String
+  accountType       String
+  branchCode        String
+  ownerUserId       String?
+  stageName         String?
+  status            String?
+  priorityLevel     String?
+  noContactDays     Int?
+  lastContactDate   DateTime?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+}
+
+model Meeting {
+  id                String   @id @default(uuid())
+  crmMeetingId      String   @unique
+  branchCode        String
+  ownerUserId       String?
+  meetingType       String?
+  meetingStatus     String?
+  meetingDate       DateTime?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+}
+
+model Alert {
+  id                String   @id @default(uuid())
+  alertType         String
+  severity          String
+  branchCode        String
+  title             String
+  description       String?
+  isResolved        Boolean  @default(false)
+  createdAt         DateTime @default(now())
+}
+
+model Scorecard {
+  id                  String   @id @default(uuid())
+  userId              String
+  branchCode          String
+  scoreType           String?
+  totalScore          Float?
+  meetingScore        Float?
+  pipelineScore       Float?
+  ervScore            Float?
+  productivityScore   Float?
+  generatedAt         DateTime @default(now())
+
+  user                User     @relation(fields: [userId], references: [id])
+}
+
+model AuditLog {
+  id                  String   @id @default(uuid())
+  userId              String
+  actionType          String
+  actionDescription   String?
+  ipAddress           String?
+  createdAt           DateTime @default(now())
+
+  user                User     @relation(fields: [userId], references: [id])
+}
