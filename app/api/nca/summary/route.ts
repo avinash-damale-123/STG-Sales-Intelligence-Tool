@@ -1,12 +1,10 @@
 import { NextResponse } from 'next/server';
 import { getNcaSummary } from '@/services/nca-service';
+import { getTemporarySuperAdminScope } from '@/services/api-access-scope';
 
 export async function GET() {
   try {
-    const data = await getNcaSummary({
-      isSuperAdmin: true,
-      allowedBranches: [],
-    });
+    const data = await getNcaSummary(getTemporarySuperAdminScope());
 
     return NextResponse.json({
       success: true,
