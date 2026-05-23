@@ -1,12 +1,10 @@
 import { NextResponse } from 'next/server';
 import { getMeetingSummary } from '@/services/meeting-service';
+import { getTemporarySuperAdminScope } from '@/services/api-access-scope';
 
 export async function GET() {
   try {
-    const data = await getMeetingSummary({
-      isSuperAdmin: true,
-      allowedBranches: [],
-    });
+    const data = await getMeetingSummary(getTemporarySuperAdminScope());
 
     return NextResponse.json({
       success: true,
