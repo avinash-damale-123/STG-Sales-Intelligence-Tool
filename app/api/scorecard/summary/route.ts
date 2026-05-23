@@ -1,14 +1,24 @@
 import { NextResponse } from 'next/server';
+import { getScorecardSummary } from '@/services/scorecard-summary-service';
 
 export async function GET() {
-  return NextResponse.json({
-    success: true,
-    message: 'Scorecard summary API placeholder.',
-    data: {
-      totalUsers: 0,
-      topPerformers: 0,
-      averageScore: 0,
-      pendingReviews: 0,
-    },
-  });
+  try {
+    const data = await getScorecardSummary({
+      isSuperAdmin: true,
+      allowedBranches: [],
+    });
+
+    return NextResponse.json({
+      success: true,
+      data,
+    });
+  } catch {
+    return NextResponse.json(
+      {
+        success: false,
+        message: 'Unable to load scorecard summary.',
+      },
+      { status: 500 }
+    );
+  }
 }
