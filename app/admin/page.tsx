@@ -1,12 +1,14 @@
 import { AuditActivityPanel } from '@/components/admin/AuditActivityPanel';
+import { BranchAccessPanel } from '@/components/admin/BranchAccessPanel';
 import { BranchListPanel } from '@/components/admin/BranchListPanel';
+import { RoleListPanel } from '@/components/admin/RoleListPanel';
 import { SyncControlPanel } from '@/components/admin/SyncControlPanel';
 import { UserListPanel } from '@/components/admin/UserListPanel';
 
 const adminCards = [
   { title: 'Users', description: 'View active users and assigned roles' },
-  { title: 'Branch Access', description: 'Review synced branch master data' },
-  { title: 'Audit Logs', description: 'Monitor recent system activity' },
+  { title: 'Roles', description: 'Review role access type' },
+  { title: 'Branch Access', description: 'Assign exact branch access' },
   { title: 'Refresh History', description: 'Track CRM sync results' },
 ];
 
@@ -17,7 +19,7 @@ export default function AdminPage() {
         <div>
           <h1 className="text-3xl font-bold text-slate-950">Admin Panel</h1>
           <p className="mt-2 text-sm text-slate-500">
-            Manage users, branch access, audit logs, sessions, CRM sync, and refresh history.
+            Manage users, roles, branch access, audit logs, CRM sync, and refresh history.
           </p>
         </div>
 
@@ -31,7 +33,9 @@ export default function AdminPage() {
         </div>
 
         <UserListPanel />
+        <RoleListPanel />
         <BranchListPanel />
+        <BranchAccessPanel />
         <AuditActivityPanel />
         <SyncControlPanel />
       </div>
