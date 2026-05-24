@@ -1,0 +1,44 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  validate:
+    name: Validate app
+    runs-on: ubuntu-latest
+
+    env:
+      DATABASE_URL: postgresql://user:password@localhost:5432/sales_intelligence?schema=public
+      NEXTAUTH_SECRET: ci-secret
+      NEXTAUTH_URL: http://localhost:3000
+      JWT_SECRET: ci-secret
+      CRM_API_BASE_URL: http://localhost:3000/mock-crm
+      CRM_API_KEY: ci-key
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Generate Prisma client
+        run: npm run prisma:generate
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Build
+        run: npm run build
