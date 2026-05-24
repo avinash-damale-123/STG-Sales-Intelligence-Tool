@@ -1,6 +1,6 @@
+import { DashboardSummaryCards } from '@/components/dashboard/DashboardSummaryCards';
 import { DataTable } from '@/components/dashboard/DataTable';
 import { FilterBar } from '@/components/dashboard/FilterBar';
-import { KpiCard } from '@/components/dashboard/KpiCard';
 import { SectionCard } from '@/components/dashboard/SectionCard';
 
 const priorityColumns = [
@@ -48,38 +48,13 @@ export default function DashboardPage() {
           </div>
 
           <div className="rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm text-slate-600 shadow-sm">
-            Data as of: Pending CRM Sync
+            Data as of: Live secured API
           </div>
         </div>
 
         <FilterBar />
 
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
-          <KpiCard
-            title="ERV Portfolio"
-            value="0"
-            subtitle="Existing revenue accounts"
-            trend="Secure"
-          />
-          <KpiCard
-            title="NCA Pipeline"
-            value="0"
-            subtitle="Open acquisition opportunities"
-            trend="Sync Pending"
-          />
-          <KpiCard
-            title="High Priority"
-            value="0"
-            subtitle="Accounts needing action"
-            trend="Action"
-          />
-          <KpiCard
-            title="Meetings"
-            value="0"
-            subtitle="Held and planned activity"
-            trend="This Month"
-          />
-        </div>
+        <DashboardSummaryCards />
 
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
           <SectionCard
