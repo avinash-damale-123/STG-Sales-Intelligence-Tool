@@ -1,6 +1,33 @@
-import { KpiCard } from '@/components/dashboard/KpiCard';
+import { ApiSummaryCards } from '@/components/dashboard/ApiSummaryCards';
 import { DataTable } from '@/components/dashboard/DataTable';
 import { SectionCard } from '@/components/dashboard/SectionCard';
+
+const cards = [
+  {
+    title: 'Critical',
+    valueKey: 'criticalAlerts',
+    subtitle: 'Immediate attention',
+    trend: 'P0',
+  },
+  {
+    title: 'High',
+    valueKey: 'highAlerts',
+    subtitle: 'Urgent actions',
+    trend: 'P1',
+  },
+  {
+    title: 'Medium',
+    valueKey: 'mediumAlerts',
+    subtitle: 'This week',
+    trend: 'P2',
+  },
+  {
+    title: 'Info',
+    valueKey: 'infoAlerts',
+    subtitle: 'Monitoring',
+    trend: 'Info',
+  },
+];
 
 const columns = [
   { key: 'severity', label: 'Severity' },
@@ -25,12 +52,7 @@ export default function AlertsPage() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
-          <KpiCard title="Critical" value="0" subtitle="Immediate attention" trend="P0" />
-          <KpiCard title="High" value="0" subtitle="Urgent actions" trend="P1" />
-          <KpiCard title="Medium" value="0" subtitle="This week" trend="P2" />
-          <KpiCard title="Info" value="0" subtitle="Monitoring" trend="Info" />
-        </div>
+        <ApiSummaryCards endpoint="/api/alerts/summary" cards={cards} />
 
         <SectionCard title="Alert Details" description="Alerts are always generated within the user's assigned branch scope.">
           <DataTable columns={columns} rows={rows} />
