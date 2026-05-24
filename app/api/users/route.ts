@@ -1,29 +1,44 @@
 import { NextResponse } from 'next/server';
+import { getApiAccessScope } from '@/services/api-access-scope';
+import { listUsers } from '@/services/user-service';
 
 export async function GET() {
-  return NextResponse.json({
-    success: true,
-    message: 'Users API placeholder.',
-    data: [],
-  });
-}
-
-export async function POST(request: Request) {
   try {
-    const body = await request.json();
+    const access = await getApiAccessScope();
+
+    if (!access.isAuthenticated) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: 'Authentication required.',
+        },
+        { status: 401 }
+      );
+    }
+
+    const users = await listUsers();
 
     return NextResponse.json({
       success: true,
-      message: 'Create user placeholder.',
-      payload: body,
+      data: users,
     });
   } catch {
     return NextResponse.json(
       {
         success: false,
-        message: 'Invalid request body.',
+        message: 'Unable to load users.',
       },
-      { status: 400 }
+      { status: 500 }
     );
   }
+}
+
+export async function POST() {
+  return NextResponse.json(
+    {
+      success: false,
+      message: 'User creation is disabled until admin provisioning flow is finalized.',
+    },
+    { status: 501 }
+  );
 }
