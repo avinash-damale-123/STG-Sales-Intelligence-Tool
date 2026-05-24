@@ -14,6 +14,7 @@ export async function createRefreshHistory(input: {
       recordsProcessed: input.recordsProcessed || 0,
       errorMessage: input.errorMessage,
       triggeredBy: input.triggeredBy || 'Manual',
+      completedAt: new Date(),
     },
   });
 }
