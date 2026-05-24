@@ -20,6 +20,22 @@ export async function getApiAccessScope() {
   };
 }
 
+export async function requireAdminAccess() {
+  const access = await getApiAccessScope();
+
+  if (!access.isAuthenticated || !access.user || !access.scope?.isSuperAdmin) {
+    return {
+      isAuthorized: false,
+      access,
+    };
+  }
+
+  return {
+    isAuthorized: true,
+    access,
+  };
+}
+
 export function getTemporarySuperAdminScope() {
   return {
     isSuperAdmin: true,
