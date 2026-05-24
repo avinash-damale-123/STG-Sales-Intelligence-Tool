@@ -1,6 +1,33 @@
-import { KpiCard } from '@/components/dashboard/KpiCard';
+import { ApiSummaryCards } from '@/components/dashboard/ApiSummaryCards';
 import { DataTable } from '@/components/dashboard/DataTable';
 import { SectionCard } from '@/components/dashboard/SectionCard';
+
+const cards = [
+  {
+    title: 'Total Users',
+    valueKey: 'totalUsers',
+    subtitle: 'Active users only',
+    trend: 'Secure',
+  },
+  {
+    title: 'Average Score',
+    valueKey: 'averageScore',
+    subtitle: 'Current period',
+    trend: 'Live',
+  },
+  {
+    title: 'Top Performers',
+    valueKey: 'topPerformers',
+    subtitle: 'Branch-scoped',
+    trend: 'Rank',
+  },
+  {
+    title: 'Reviews Pending',
+    valueKey: 'pendingReviews',
+    subtitle: 'Admin review',
+    trend: 'Monitor',
+  },
+];
 
 const columns = [
   { key: 'user', label: 'User' },
@@ -25,12 +52,7 @@ export default function ScorecardPage() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
-          <KpiCard title="Total Users" value="0" subtitle="Active users only" trend="Secure" />
-          <KpiCard title="Average Score" value="0" subtitle="Current period" trend="Pending" />
-          <KpiCard title="Top Performers" value="0" subtitle="Branch-scoped" trend="Rank" />
-          <KpiCard title="Reviews Pending" value="0" subtitle="Admin review" trend="Monitor" />
-        </div>
+        <ApiSummaryCards endpoint="/api/scorecard/summary" cards={cards} />
 
         <SectionCard title="User Scorecard" description="Performance data will populate after CRM sync and scoring rules are finalized.">
           <DataTable columns={columns} rows={rows} />
