@@ -1,56 +1,121 @@
 # Deployment Checklist
 
-## Environment Variables
+Use this checklist before running the Sales Intelligence Tool in a live environment.
 
-Required:
+## 1. Required Environment Variables
+
+Configure these in your hosting platform or local environment:
 
 - DATABASE_URL
-- CRM_API_BASE_URL
-- CRM_API_KEY
 - NEXTAUTH_SECRET
 - NEXTAUTH_URL
+- JWT_SECRET
+- CRM_API_BASE_URL
+- CRM_API_KEY
+- INITIAL_ADMIN_USER_ID
+- INITIAL_ADMIN_EMAIL
+- INITIAL_ADMIN_PASSWORD
+- INITIAL_ADMIN_FIRST_NAME
+- INITIAL_ADMIN_LAST_NAME
 
-## Database
+Do not commit real values into the repository.
 
-1. Create PostgreSQL database.
-2. Add DATABASE_URL.
-3. Run Prisma migration.
-4. Verify tables.
+## 2. Database Setup
 
-## Authentication
+After DATABASE_URL is configured, run:
 
-1. Create initial Super Admin.
-2. Verify login.
-3. Verify session handling.
-4. Verify protected routes.
+```bash
+npm install
+npx prisma generate
+npx prisma migrate deploy
+```
 
-## Branch Security
+For local development, you may use:
 
-1. Create test users.
-2. Assign branch access.
-3. Verify branch-level filtering.
-4. Verify restricted dashboards.
+```bash
+npx prisma migrate dev
+```
 
-## CRM Sync
+## 3. First Super Admin
 
-1. Verify CRM API connectivity.
-2. Run branch sync.
+After migration is complete, create the first Super Admin user:
+
+```bash
+node scripts/create-super-admin.js
+```
+
+## 4. Health Check
+
+Start the application and call:
+
+```text
+/api/health
+```
+
+Expected healthy response:
+
+- app is ok
+- database is ok
+- auth secret is configured
+- CRM base URL is configured when CRM sync is needed
+- CRM API key is configured when CRM sync is needed
+
+## 5. Login Verification
+
+Verify:
+
+- Login page loads
+- Super Admin can log in
+- Dashboard opens after login
+- stg_session cookie is created
+- Dashboard summary API does not return 401
+
+## 6. CRM Sync Verification
+
+From Admin panel:
+
+1. Run branch sync first.
+2. Check Branch Master table.
 3. Run account sync.
 4. Run meeting sync.
-5. Verify refresh history.
+5. Check refresh history.
+6. Confirm records processed count.
+7. Confirm dashboard summary cards update.
 
-## Dashboard Verification
+## 7. Branch Security Test
 
-1. Verify ERV dashboard.
-2. Verify NCA dashboard.
-3. Verify alerts.
-4. Verify meetings.
-5. Verify scorecard.
+Create or prepare a normal user with branch access.
 
-## Production Readiness
+Verify:
 
-1. Enable HTTPS.
-2. Secure secrets.
-3. Configure backups.
-4. Configure monitoring.
-5. Configure logging.
+- User sees only assigned branch data.
+- User with no branches sees no business data.
+- Super Admin sees all branch data.
+- API responses follow the same branch rule as UI.
+
+## 8. Dashboard Verification
+
+Verify these modules after login and CRM sync:
+
+- Home Dashboard
+- ERV Portfolio
+- NCA Pipeline
+- Meeting Activity
+- Alerts
+- Scorecard
+- Admin Panel
+
+## 9. Production Checks
+
+Before production rollout:
+
+- HTTPS enabled
+- secure cookies enabled
+- database backups configured
+- CRM credentials stored in secrets only
+- migration tested
+- login tested
+- branch security tested
+- CRM sync tested
+- error monitoring configured
+- logging configured
