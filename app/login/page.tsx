@@ -1,3 +1,5 @@
+import { LoginForm } from '@/components/auth/LoginForm';
+
 export default function LoginPage() {
   return (
     <main className="min-h-screen flex items-center justify-center bg-gray-100 p-6">
@@ -11,41 +13,12 @@ export default function LoginPage() {
           </p>
         </div>
 
-        <form className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              User ID or Email
-            </label>
-            <input
-              type="text"
-              className="mt-1 w-full rounded-xl border border-gray-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="Enter User ID or Email"
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Password
-            </label>
-            <input
-              type="password"
-              className="mt-1 w-full rounded-xl border border-gray-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="Enter Password"
-            />
-          </div>
-
-          <button
-            type="submit"
-            className="w-full rounded-xl bg-black px-4 py-3 text-white font-medium hover:opacity-90"
-          >
-            Sign In
-          </button>
-        </form>
+        <LoginForm />
 
         <div className="mt-4 text-center">
-          <button className="text-sm text-blue-600 hover:underline">
-            Forgot Password?
-          </button>
+          <p className="text-xs text-gray-500">
+            Contact your administrator if you cannot access your account.
+          </p>
         </div>
       </div>
     </main>
