@@ -127,3 +127,14 @@ model AuditLog {
 
   user                User     @relation(fields: [userId], references: [id])
 }
+
+model RefreshHistory {
+  id                String    @id @default(uuid())
+  endpointName      String
+  refreshStatus     String
+  recordsProcessed  Int       @default(0)
+  errorMessage      String?
+  triggeredBy       String    @default("Manual")
+  startedAt         DateTime  @default(now())
+  completedAt       DateTime?
+}
