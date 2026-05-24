@@ -2,7 +2,7 @@ import { getSessionUser } from '@/lib/session';
 import { resolveAccessScope } from './access-scope';
 
 export async function getApiAccessScope() {
-  const user = getSessionUser();
+  const user = await getSessionUser();
 
   if (!user) {
     return {
