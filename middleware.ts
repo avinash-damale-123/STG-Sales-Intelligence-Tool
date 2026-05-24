@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { verifyToken } from './lib/auth';
 
 const protectedRoutes = ['/dashboard', '/admin', '/erv', '/nca', '/meetings', '/alerts', '/scorecard', '/revenue'];
 
@@ -13,7 +12,7 @@ export function middleware(request: NextRequest) {
 
   const token = request.cookies.get('stg_session')?.value;
 
-  if (!token || !verifyToken(token)) {
+  if (!token) {
     const loginUrl = new URL('/login', request.url);
     loginUrl.searchParams.set('redirect', pathname);
     return NextResponse.redirect(loginUrl);
