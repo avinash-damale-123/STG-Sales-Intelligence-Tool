@@ -1,8 +1,9 @@
 import { cookies } from 'next/headers';
 import { verifyToken, type SessionUser } from './auth';
 
-export function getSessionUser(): SessionUser | null {
-  const token = cookies().get('stg_session')?.value;
+export async function getSessionUser(): Promise<SessionUser | null> {
+  const cookieStore = await cookies();
+  const token = cookieStore.get('stg_session')?.value;
 
   if (!token) {
     return null;
@@ -11,8 +12,8 @@ export function getSessionUser(): SessionUser | null {
   return verifyToken(token);
 }
 
-export function requireSessionUser(): SessionUser {
-  const user = getSessionUser();
+export async function requireSessionUser(): Promise<SessionUser> {
+  const user = await getSessionUser();
 
   if (!user) {
     throw new Error('Unauthenticated');
@@ -21,7 +22,7 @@ export function requireSessionUser(): SessionUser {
   return user;
 }
 
-export function getAllowedBranches(): string[] {
-  const user = requireSessionUser();
+export async function getAllowedBranches(): Promise<string[]> {
+  const user = await requireSessionUser();
   return user.allowedBranches || [];
 }
