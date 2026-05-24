@@ -8,8 +8,10 @@ export async function POST() {
 
   response.cookies.set('stg_session', '', {
     httpOnly: true,
-    expires: new Date(0),
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'lax',
     path: '/',
+    maxAge: 0,
   });
 
   return response;
