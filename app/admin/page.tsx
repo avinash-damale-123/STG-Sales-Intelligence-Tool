@@ -1,4 +1,5 @@
 import { SyncControlPanel } from '@/components/admin/SyncControlPanel';
+import { UserListPanel } from '@/components/admin/UserListPanel';
 
 const adminCards = ['Users', 'Branch Access', 'Audit Logs', 'Refresh History'];
 
@@ -22,6 +23,7 @@ export default function AdminPage() {
           ))}
         </div>
 
+        <UserListPanel />
         <SyncControlPanel />
       </div>
     </main>
