@@ -1,31 +1,21 @@
+import { ApiRecordsTable } from '@/components/dashboard/ApiRecordsTable';
 import { ApiSummaryCards } from '@/components/dashboard/ApiSummaryCards';
 import { SectionCard } from '@/components/dashboard/SectionCard';
 
 const cards = [
-  {
-    title: 'Total ERV Accounts',
-    valueKey: 'totalAccounts',
-    subtitle: 'Existing revenue portfolio',
-    trend: 'Secure',
-  },
-  {
-    title: 'High Priority',
-    valueKey: 'highPriorityAccounts',
-    subtitle: 'Accounts needing action',
-    trend: 'Action',
-  },
-  {
-    title: 'Lost Risk',
-    valueKey: 'lostRiskAccounts',
-    subtitle: 'Potential churn risk',
-    trend: 'Monitor',
-  },
-  {
-    title: 'No Contact',
-    valueKey: 'noContactAccounts',
-    subtitle: 'Follow-up required',
-    trend: 'Review',
-  },
+  { title: 'Total ERV Accounts', valueKey: 'totalAccounts', subtitle: 'Existing revenue portfolio', trend: 'Secure' },
+  { title: 'High Priority', valueKey: 'highPriorityAccounts', subtitle: 'Accounts needing action', trend: 'Action' },
+  { title: 'Lost Risk', valueKey: 'lostRiskAccounts', subtitle: 'Potential churn risk', trend: 'Monitor' },
+  { title: 'No Contact', valueKey: 'noContactAccounts', subtitle: 'Follow-up required', trend: 'Review' },
+];
+
+const columns = [
+  { key: 'accountName', label: 'Client' },
+  { key: 'branchCode', label: 'Branch' },
+  { key: 'status', label: 'Status' },
+  { key: 'priorityLevel', label: 'Priority' },
+  { key: 'lastContactDate', label: 'Last Contact' },
+  { key: 'noContactDays', label: 'No Contact Days' },
 ];
 
 export default function ErvPage() {
@@ -41,13 +31,8 @@ export default function ErvPage() {
 
         <ApiSummaryCards endpoint="/api/erv/summary" cards={cards} />
 
-        <SectionCard
-          title="ERV Account Monitoring"
-          description="Detailed ERV account tables and risk queues will populate after CRM sync."
-        >
-          <div className="rounded-xl bg-slate-50 p-6 text-sm text-slate-500">
-            Branch-secured ERV analytics are connected to the secured summary API.
-          </div>
+        <SectionCard title="ERV Account Monitoring" description="Branch-secured ERV records from synced CRM account data.">
+          <ApiRecordsTable endpoint="/api/erv/records" columns={columns} emptyMessage="No ERV records available yet. Run CRM account sync first." />
         </SectionCard>
       </div>
     </main>
