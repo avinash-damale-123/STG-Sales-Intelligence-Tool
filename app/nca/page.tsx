@@ -1,31 +1,21 @@
+import { ApiRecordsTable } from '@/components/dashboard/ApiRecordsTable';
 import { ApiSummaryCards } from '@/components/dashboard/ApiSummaryCards';
 import { SectionCard } from '@/components/dashboard/SectionCard';
 
 const cards = [
-  {
-    title: 'Total Pipeline',
-    valueKey: 'totalPipeline',
-    subtitle: 'Open acquisition opportunities',
-    trend: 'Live',
-  },
-  {
-    title: 'Hot Leads',
-    valueKey: 'hotLeads',
-    subtitle: 'High-conversion potential',
-    trend: 'Hot',
-  },
-  {
-    title: 'Proposal Stage',
-    valueKey: 'proposalStage',
-    subtitle: 'Proposal follow-up required',
-    trend: 'Proposal',
-  },
-  {
-    title: 'Negotiation',
-    valueKey: 'negotiationStage',
-    subtitle: 'Close-stage opportunities',
-    trend: 'Close',
-  },
+  { title: 'Total Pipeline', valueKey: 'totalPipeline', subtitle: 'Open acquisition opportunities', trend: 'Live' },
+  { title: 'Hot Leads', valueKey: 'hotLeads', subtitle: 'High-conversion potential', trend: 'Hot' },
+  { title: 'Proposal Stage', valueKey: 'proposalStage', subtitle: 'Proposal follow-up required', trend: 'Proposal' },
+  { title: 'Negotiation', valueKey: 'negotiationStage', subtitle: 'Close-stage opportunities', trend: 'Close' },
+];
+
+const columns = [
+  { key: 'accountName', label: 'Prospect' },
+  { key: 'branchCode', label: 'Branch' },
+  { key: 'stageName', label: 'Stage' },
+  { key: 'status', label: 'Status' },
+  { key: 'priorityLevel', label: 'Priority' },
+  { key: 'ownerUserId', label: 'Owner' },
 ];
 
 export default function NcaPage() {
@@ -41,13 +31,8 @@ export default function NcaPage() {
 
         <ApiSummaryCards endpoint="/api/nca/summary" cards={cards} />
 
-        <SectionCard
-          title="Pipeline Dashboard"
-          description="Detailed NCA pipeline tables and stage movement will populate after CRM sync."
-        >
-          <div className="rounded-xl bg-slate-50 p-6 text-sm text-slate-500">
-            Branch-secured NCA analytics are connected to the secured summary API.
-          </div>
+        <SectionCard title="Pipeline Dashboard" description="Branch-secured NCA records from synced CRM account data.">
+          <ApiRecordsTable endpoint="/api/nca/records" columns={columns} emptyMessage="No NCA records available yet. Run CRM account sync first." />
         </SectionCard>
       </div>
     </main>
