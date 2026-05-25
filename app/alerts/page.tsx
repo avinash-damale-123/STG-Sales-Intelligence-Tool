@@ -1,44 +1,21 @@
+import { ApiRecordsTable } from '@/components/dashboard/ApiRecordsTable';
 import { ApiSummaryCards } from '@/components/dashboard/ApiSummaryCards';
-import { DataTable } from '@/components/dashboard/DataTable';
 import { SectionCard } from '@/components/dashboard/SectionCard';
 
 const cards = [
-  {
-    title: 'Critical',
-    valueKey: 'criticalAlerts',
-    subtitle: 'Immediate attention',
-    trend: 'P0',
-  },
-  {
-    title: 'High',
-    valueKey: 'highAlerts',
-    subtitle: 'Urgent actions',
-    trend: 'P1',
-  },
-  {
-    title: 'Medium',
-    valueKey: 'mediumAlerts',
-    subtitle: 'This week',
-    trend: 'P2',
-  },
-  {
-    title: 'Info',
-    valueKey: 'infoAlerts',
-    subtitle: 'Monitoring',
-    trend: 'Info',
-  },
+  { title: 'Critical', valueKey: 'criticalAlerts', subtitle: 'Immediate attention', trend: 'P0' },
+  { title: 'High', valueKey: 'highAlerts', subtitle: 'Urgent actions', trend: 'P1' },
+  { title: 'Medium', valueKey: 'mediumAlerts', subtitle: 'This week', trend: 'P2' },
+  { title: 'Info', valueKey: 'infoAlerts', subtitle: 'Monitoring', trend: 'Info' },
 ];
 
 const columns = [
   { key: 'severity', label: 'Severity' },
-  { key: 'category', label: 'Category' },
-  { key: 'message', label: 'Message' },
-  { key: 'action', label: 'Action' },
-];
-
-const rows = [
-  { severity: 'Critical', category: 'Access', message: 'Branch-secured alerts pending data sync', action: 'Validate scope' },
-  { severity: 'Info', category: 'CRM', message: 'CRM alert engine will populate after sync', action: 'Run sync' },
+  { key: 'alertType', label: 'Type' },
+  { key: 'branchCode', label: 'Branch' },
+  { key: 'title', label: 'Title' },
+  { key: 'isResolved', label: 'Resolved' },
+  { key: 'createdAt', label: 'Created' },
 ];
 
 export default function AlertsPage() {
@@ -54,8 +31,8 @@ export default function AlertsPage() {
 
         <ApiSummaryCards endpoint="/api/alerts/summary" cards={cards} />
 
-        <SectionCard title="Alert Details" description="Alerts are always generated within the user's assigned branch scope.">
-          <DataTable columns={columns} rows={rows} />
+        <SectionCard title="Alert Details" description="Branch-secured alert records generated from sales intelligence rules.">
+          <ApiRecordsTable endpoint="/api/alerts/records" columns={columns} emptyMessage="No alert records available yet." />
         </SectionCard>
       </div>
     </main>
