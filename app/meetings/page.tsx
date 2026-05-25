@@ -1,44 +1,20 @@
+import { ApiRecordsTable } from '@/components/dashboard/ApiRecordsTable';
 import { ApiSummaryCards } from '@/components/dashboard/ApiSummaryCards';
-import { DataTable } from '@/components/dashboard/DataTable';
 import { SectionCard } from '@/components/dashboard/SectionCard';
 
 const cards = [
-  {
-    title: 'Total Meetings',
-    valueKey: 'totalMeetings',
-    subtitle: 'Current period',
-    trend: 'Live',
-  },
-  {
-    title: 'Held Meetings',
-    valueKey: 'heldMeetings',
-    subtitle: 'Productivity count',
-    trend: 'Held',
-  },
-  {
-    title: 'Marketing Meetings',
-    valueKey: 'marketingMeetings',
-    subtitle: 'Target tracking',
-    trend: 'Marketing',
-  },
-  {
-    title: 'Not Held',
-    valueKey: 'notHeldMeetings',
-    subtitle: 'Attempted activity',
-    trend: 'Review',
-  },
+  { title: 'Total Meetings', valueKey: 'totalMeetings', subtitle: 'Current period', trend: 'Live' },
+  { title: 'Held Meetings', valueKey: 'heldMeetings', subtitle: 'Productivity count', trend: 'Held' },
+  { title: 'Marketing Meetings', valueKey: 'marketingMeetings', subtitle: 'Target tracking', trend: 'Marketing' },
+  { title: 'Not Held', valueKey: 'notHeldMeetings', subtitle: 'Attempted activity', trend: 'Review' },
 ];
 
 const columns = [
-  { key: 'owner', label: 'Owner' },
-  { key: 'branch', label: 'Branch' },
-  { key: 'held', label: 'Held' },
-  { key: 'notHeld', label: 'Not Held' },
-  { key: 'status', label: 'Status' },
-];
-
-const rows = [
-  { owner: 'Sample Owner', branch: 'Assigned Branch', held: 0, notHeld: 0, status: 'Pending Data' },
+  { key: 'ownerUserId', label: 'Owner' },
+  { key: 'branchCode', label: 'Branch' },
+  { key: 'meetingType', label: 'Type' },
+  { key: 'meetingStatus', label: 'Status' },
+  { key: 'meetingDate', label: 'Meeting Date' },
 ];
 
 export default function MeetingsPage() {
@@ -54,8 +30,8 @@ export default function MeetingsPage() {
 
         <ApiSummaryCards endpoint="/api/meetings/summary" cards={cards} />
 
-        <SectionCard title="Meetings by Owner" description="Only users from assigned branch scope should appear here.">
-          <DataTable columns={columns} rows={rows} />
+        <SectionCard title="Meeting Records" description="Branch-secured meeting records from synced CRM meeting data.">
+          <ApiRecordsTable endpoint="/api/meetings/records" columns={columns} emptyMessage="No meeting records available yet. Run CRM meeting sync first." />
         </SectionCard>
       </div>
     </main>
