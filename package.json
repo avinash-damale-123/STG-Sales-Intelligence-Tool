@@ -13,7 +13,7 @@
     "prisma:studio": "prisma studio"
   },
   "dependencies": {
-    "@prisma/client": "latest",
+    "@prisma/client": "6.19.0",
     "bcryptjs": "latest",
     "clsx": "latest",
     "date-fns": "latest",
@@ -35,7 +35,7 @@
     "eslint": "latest",
     "eslint-config-next": "latest",
     "postcss": "latest",
-    "prisma": "latest",
+    "prisma": "6.19.0",
     "tailwindcss": "latest",
     "typescript": "latest"
   }
