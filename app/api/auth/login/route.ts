@@ -75,7 +75,7 @@ export async function POST(request: Request) {
         isSuperAdmin: Boolean(user.role?.isSuperAdmin),
         allowedBranches: user.role?.isSuperAdmin
           ? []
-          : user.branchAccess.map((access) => access.branchCode),
+          : : user.branchAccess.map((access: { branchCode: string }) => access.branchCode),
       },
     });
 
