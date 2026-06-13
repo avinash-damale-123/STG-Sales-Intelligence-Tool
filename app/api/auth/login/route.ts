@@ -54,7 +54,7 @@ export async function POST(request: Request) {
       role: user.role?.roleName || 'User',
       allowedBranches: user.role?.isSuperAdmin
         ? []
-        : user.branchAccess.map((access) => access.branchCode),
+        : user.branchAccess.map((access: { branchCode: string }) => access.branchCode),
     });
 
     await createAuditLog({
